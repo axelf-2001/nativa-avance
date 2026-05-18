@@ -1,0 +1,136 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="white" class="main-toolbar">
+    <ion-title>NATIVA</ion-title>
+    <ion-buttons slot="end">
+      <ion-button class="icon-button">
+        <ion-icon slot="icon-only" name="notifications-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  
+  <ion-toolbar color="white">
+    <ion-searchbar 
+      placeholder="¿Qué buscas hoy?" 
+      mode="ios" 
+      [(ngModel)]="textoBusqueda" 
+      (ionInput)="filtrar()">
+    </ion-searchbar>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+  <section class="store-hero">
+    <div>
+      <span>Nueva colección</span>
+      <h1>Prendas fáciles para vestir bien todos los días</h1>
+      <p>{{ productos.length }} piezas seleccionadas con telas suaves y colores combinables.</p>
+    </div>
+  </section>
+
+  <div class="category-bar">
+    <button
+      *ngFor="let cat of categorias"
+      type="button"
+      [class.active]="categoriaSeleccionada === cat"
+      (click)="seleccionarCategoria(cat)"
+      class="category-chip">
+      <span>{{ cat }}</span>
+      <small>{{ contarCategoria(cat) }}</small>
+    </button>
+  </div>
+
+  <ion-grid *ngIf="cargando">
+    <ion-row>
+      <ion-col size="6" *ngFor="let s of [1,2,3,4]">
+        <div class="skeleton-card">
+          <ion-skeleton-text animated style="height: 200px; width: 100%; border-radius: 8px;"></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 50%; height: 15px; margin-top: 10px;"></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 80%; height: 12px;"></ion-skeleton-text>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid *ngIf="!cargando">
+    <div class="results-row">
+      <div>
+        <strong>{{ productosFiltrados.length }} resultados</strong>
+        <span>{{ categoriaSeleccionada }}</span>
+      </div>
+      <ion-icon name="shirt-outline"></ion-icon>
+    </div>
+
+    <ion-row>
+      <ion-col size="6" *ngFor="let p of productosFiltrados">
+        <div class="product-item" (click)="verDetalle(p)">
+          <div class="image-container">
+            <img
+              [src]="p.imagen"
+              [alt]="p.nombre"
+              loading="lazy"
+              referrerpolicy="no-referrer"
+              (error)="usarImagenFallback($event)"
+            />
+            <span class="product-badge">{{ p.etiqueta }}</span>
+            <ion-button fill="clear" class="fav-btn"><ion-icon name="heart-outline"></ion-icon></ion-button>
+          </div>
+          <div class="info">
+            <p class="name">{{ p.nombre }}</p>
+            <div class="meta-row">
+              <span>{{ p.color }}</span>
+              <strong>${{ p.precio }}</strong>
+            </div>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <div *ngIf="productosFiltrados.length === 0" class="empty-state ion-text-center">
+      <ion-icon name="search-outline"></ion-icon>
+      <p>No hay resultados para "{{ textoBusqueda }}"</p>
+    </div>
+  </ion-grid>
+
+  <ion-modal [isOpen]="mostrarDetalle" (didDismiss)="cerrarDetalle()" [initialBreakpoint]="0.85" [breakpoints]="[0, 0.85, 1]">
+    <ng-template>
+      <ion-content class="ion-padding" *ngIf="productoSeleccionado">
+        <div class="modal-header">
+          <ion-button fill="clear" (click)="cerrarDetalle()"><ion-icon name="close-outline" slot="icon-only"></ion-icon></ion-button>
+        </div>
+        
+        <img
+          [src]="productoSeleccionado.imagen"
+          [alt]="productoSeleccionado.nombre"
+          class="modal-img"
+          referrerpolicy="no-referrer"
+          (error)="usarImagenFallback($event)"
+        />
+        
+        <div class="modal-body">
+          <span class="modal-tag">{{ productoSeleccionado.etiqueta }} · {{ productoSeleccionado.color }}</span>
+          <div class="title-row">
+            <h1>{{ productoSeleccionado.nombre }}</h1>
+            <span class="modal-price">${{ productoSeleccionado.precio }}</span>
+          </div>
+          
+          <p class="desc">{{ productoSeleccionado.descripcion }}</p>
+          
+          <p class="section-title">SELECCIONA TU TALLA</p>
+          <div class="size-grid">
+            <div *ngFor="let t of ['S', 'M', 'L', 'XL']" 
+                 [class.selected]="tallaSeleccionada === t"
+                 (click)="tallaSeleccionada = t">
+              {{ t }}
+            </div>
+          </div>
+
+          <ion-button expand="block" class="buy-btn" (click)="agregarAlCarrito()">
+            <ion-icon name="bag-add-outline" slot="start"></ion-icon>
+            Añadir a la bolsa
+          </ion-button>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>

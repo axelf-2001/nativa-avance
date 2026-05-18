@@ -1,0 +1,244 @@
+.main-toolbar {
+  ion-title {
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: #171412;
+  }
+
+  .icon-button {
+    --border-radius: 50%;
+    --background: #f3f1ec;
+    width: 42px;
+    height: 42px;
+  }
+}
+
+.store-hero {
+  margin: 14px 16px 8px;
+  padding: 24px 20px;
+  border-radius: 20px;
+  color: #fff;
+  background:
+    linear-gradient(135deg, rgba(21, 18, 16, 0.92), rgba(73, 61, 47, 0.76)),
+    url('/assets/products/product-08.png') center 18% / cover;
+  min-height: 190px;
+  display: flex;
+  align-items: flex-end;
+
+  span {
+    display: inline-flex;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.18);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    margin: 14px 0 8px;
+    max-width: 330px;
+    font-size: 1.55rem;
+    line-height: 1.08;
+    font-weight: 900;
+  }
+
+  p {
+    margin: 0;
+    max-width: 300px;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 0.9rem;
+    line-height: 1.35;
+  }
+}
+
+.category-bar {
+  display: flex;
+  overflow-x: auto;
+  gap: 8px;
+  padding: 8px 16px 12px;
+  background: #faf8f3;
+  &::-webkit-scrollbar { display: none; }
+  
+  .category-chip {
+    border: 1px solid #e7dfd4;
+    padding: 9px 12px;
+    background: #fff;
+    border-radius: 14px;
+    white-space: nowrap;
+    color: #514943;
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    font-size: 0.84rem;
+    font-weight: 750;
+
+    small {
+      color: #988d82;
+      font-weight: 800;
+    }
+
+    &.active {
+      background: #171412;
+      color: #fff;
+      border-color: #171412;
+
+      small { color: #d8cfc4; }
+    }
+  }
+}
+
+.results-row {
+  margin: 8px 4px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #171412;
+
+  div {
+    display: grid;
+    gap: 2px;
+  }
+
+  strong {
+    font-size: 1rem;
+  }
+
+  span {
+    color: #8b8177;
+    font-size: 0.78rem;
+  }
+
+  ion-icon {
+    padding: 8px;
+    border-radius: 12px;
+    background: #f0ebe3;
+    color: #6f6257;
+  }
+}
+
+.product-item {
+  margin-bottom: 20px;
+  cursor: pointer;
+
+  .image-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    border-radius: 8px;
+    background: #f3f1ec;
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    .product-badge {
+      position: absolute;
+      left: 8px;
+      top: 8px;
+      padding: 5px 8px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.88);
+      color: #171412;
+      font-size: 0.68rem;
+      font-weight: 900;
+    }
+
+    .fav-btn {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      --color: #171412;
+      --background: rgba(255, 255, 255, 0.78);
+      --border-radius: 50%;
+      width: 38px;
+      height: 38px;
+    }
+  }
+
+  .info {
+    padding: 10px 2px 0;
+
+    .name {
+      margin: 0 0 7px;
+      color: #221e1b;
+      font-weight: 800;
+      font-size: 0.88rem;
+      line-height: 1.18;
+      min-height: 34px;
+    }
+
+    .meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+
+      span {
+        color: #8b8177;
+        font-size: 0.74rem;
+      }
+
+      strong {
+        color: #171412;
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+/* Modal Detalle */
+.modal-header { display: flex; justify-content: flex-end; }
+.modal-img {
+  display: block;
+  width: 100%;
+  height: min(58vh, 520px);
+  min-height: 320px;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 15px;
+  background: #f3f1ec;
+}
+.modal-body {
+  padding-top: 20px;
+  .modal-tag {
+    color: #8a7461;
+    font-size: 0.78rem;
+    font-weight: 900;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+  }
+
+  .title-row {
+    display: flex; justify-content: space-between; align-items: flex-start; gap: 14px;
+    margin-top: 8px;
+    h1 { font-size: 1.55rem; line-height: 1.08; font-weight: 900; margin: 0; color: #171412; }
+    .modal-price { font-size: 1.35rem; font-weight: 900; color: #171412; white-space: nowrap; }
+  }
+  .desc { color: #777; line-height: 1.5; margin: 15px 0; }
+  .section-title { font-size: 0.8rem; font-weight: bold; letter-spacing: 1px; color: #000; }
+}
+
+.size-grid {
+  display: flex; gap: 10px; margin: 15px 0 30px;
+  div {
+    width: 45px; height: 45px; border: 1px solid #ddd; border-radius: 5px;
+    display: flex; align-items: center; justify-content: center; font-weight: bold;
+    &.selected { background: #000; color: #fff; border-color: #000; }
+  }
+}
+
+.buy-btn {
+  --border-radius: 14px;
+  --background: #171412;
+  height: 56px;
+  font-weight: 900;
+  text-transform: none;
+}
+
+.empty-state { padding: 50px 20px; ion-icon { font-size: 4rem; color: #eee; } p { color: #999; } }

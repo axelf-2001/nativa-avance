@@ -1,0 +1,140 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="white" class="profile-toolbar">
+    <ion-title>MI PERFIL</ion-title>
+    <ion-buttons slot="end" *ngIf="estaLogueado">
+      <ion-button class="icon-button" (click)="editandoPerfil = !editandoPerfil">
+        <ion-icon [name]="editandoPerfil ? 'checkmark-circle-outline' : 'create-outline'" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="light">
+  <section *ngIf="!estaLogueado" class="auth-screen">
+    <div class="auth-hero">
+      <span>NATIVA</span>
+      <h1>{{ mostrandoRegistro ? 'Crea tu cuenta' : 'Bienvenida de vuelta' }}</h1>
+      <p>{{ mostrandoRegistro ? 'Guarda tus compras, historial y perfil en un solo lugar.' : 'Inicia sesión para ver tus compras y continuar tu bolsa.' }}</p>
+    </div>
+
+    <div class="auth-card">
+      <ion-item lines="none" *ngIf="mostrandoRegistro">
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        <ion-input label="Nombre" labelPlacement="stacked" [(ngModel)]="nombre"></ion-input>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-icon name="mail-outline" slot="start"></ion-icon>
+        <ion-input label="Email" labelPlacement="stacked" type="email" [(ngModel)]="email"></ion-input>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+        <ion-input label="Contraseña" labelPlacement="stacked" type="password" [(ngModel)]="pass"></ion-input>
+      </ion-item>
+    </div>
+
+    <ion-button expand="block" class="primary-action" (click)="mostrandoRegistro ? registrar() : login()">
+      {{ mostrandoRegistro ? 'Crear cuenta' : 'Iniciar sesión' }}
+    </ion-button>
+    <ion-button expand="block" fill="clear" class="switch-action" (click)="mostrandoRegistro = !mostrandoRegistro">
+      {{ mostrandoRegistro ? 'Ya tengo una cuenta' : 'Crear una cuenta nueva' }}
+    </ion-button>
+  </section>
+
+  <section *ngIf="estaLogueado && usuarioActivo" class="profile-screen">
+    <div class="profile-card">
+      <div class="avatar-wrap">
+        <ion-avatar>
+          <img [src]="avatarPreview" alt="Imagen de perfil" />
+        </ion-avatar>
+        <button type="button" class="avatar-button" (click)="avatarInput.click()">
+          <ion-icon name="camera-outline"></ion-icon>
+        </button>
+        <input #avatarInput type="file" accept="image/*" hidden (change)="cambiarImagen($event)" />
+      </div>
+
+      <div class="user-meta" *ngIf="!editandoPerfil">
+        <h2>{{ usuarioActivo.nombre }}</h2>
+        <p>{{ usuarioActivo.email }}</p>
+      </div>
+
+      <div class="edit-panel" *ngIf="editandoPerfil">
+        <ion-item lines="none">
+          <ion-input label="Nombre de usuario" labelPlacement="stacked" [(ngModel)]="nombreEditado"></ion-input>
+        </ion-item>
+        <ion-button expand="block" class="primary-action compact" (click)="guardarPerfil()">
+          <ion-icon name="save-outline" slot="start"></ion-icon>
+          Guardar cambios
+        </ion-button>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div>
+        <strong>{{ historial.length }}</strong>
+        <span>compras</span>
+      </div>
+      <div>
+        <strong>{{ cartService.cartItems.length }}</strong>
+        <span>en bolsa</span>
+      </div>
+      <div>
+        <strong>{{ notificaciones.length }}</strong>
+        <span>avisos</span>
+      </div>
+    </div>
+
+    <div class="section-title">Avisos</div>
+    <div class="notification-scroll" *ngIf="notificaciones.length > 0">
+      <div *ngFor="let n of notificaciones" class="notif-card">
+        <strong>{{ n.title }}</strong>
+        <p>{{ n.msg }}</p>
+        <span>{{ n.fecha }}</span>
+      </div>
+    </div>
+    <div *ngIf="notificaciones.length === 0" class="empty-strip">
+      <ion-icon name="notifications-outline"></ion-icon>
+      <span>Aún no tienes avisos.</span>
+    </div>
+
+    <div class="section-title">Compras recientes</div>
+    <div *ngIf="historial.length > 0" class="orders-list">
+      <article *ngFor="let h of historial" class="order-card">
+        <div class="order-head">
+          <div>
+            <span>Pedido #{{ h.id }}</span>
+            <p>{{ h.fecha }} · {{ h.metodo | uppercase }}</p>
+          </div>
+          <strong>${{ h.total }}</strong>
+        </div>
+
+        <div class="order-products" *ngIf="productosDeOrden(h).length > 0">
+          <div *ngFor="let item of productosDeOrden(h)" class="order-product">
+            <img [src]="item.imagen" [alt]="item.nombre" />
+            <div>
+              <strong>{{ item.nombre }}</strong>
+              <span>Talla {{ item.talla }} · ${{ item.precio }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="order-products legacy-order" *ngIf="productosDeOrden(h).length === 0">
+          <ion-icon name="receipt-outline"></ion-icon>
+          <span>{{ h.articulos }} artículo(s) comprados</span>
+        </div>
+      </article>
+    </div>
+
+    <div *ngIf="historial.length === 0" class="empty-orders">
+      <ion-icon name="receipt-outline"></ion-icon>
+      <h3>Sin compras todavía</h3>
+      <p>Cuando completes una compra, aparecerá aquí con los productos de esa cuenta.</p>
+    </div>
+
+    <div class="logout-wrap">
+      <ion-button expand="block" fill="outline" color="dark" (click)="logout()">
+        <ion-icon name="log-out-outline" slot="start"></ion-icon>
+        Cerrar sesión
+      </ion-button>
+    </div>
+  </section>
+</ion-content>

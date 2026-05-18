@@ -1,0 +1,82 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="white" class="bag-toolbar">
+    <ion-title>MI BOLSA</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="light">
+  <div *ngIf="cartService.cartItems.length === 0" class="empty-cart ion-text-center">
+    <ion-icon name="bag-handle-outline"></ion-icon>
+    <h2>Tu bolsa está vacía</h2>
+    <p>Explora la colección y guarda aquí tus favoritos para comprar más rápido.</p>
+    <ion-button color="dark" routerLink="/tabs/tab1">Ir a la tienda</ion-button>
+  </div>
+
+  <ion-list *ngIf="cartService.cartItems.length > 0" lines="none" class="cart-list" style="background: transparent;">
+    <ion-item *ngFor="let item of cartService.cartItems; let i = index" class="cart-item" style="--background: #fff; margin: 10px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+      <ion-thumbnail slot="start">
+        <img
+          [src]="item.imagen"
+          [alt]="item.nombre"
+          referrerpolicy="no-referrer"
+          (error)="usarImagenFallback($event)"
+        />
+      </ion-thumbnail>
+      <ion-label>
+        <h3>{{ item.nombre }}</h3>
+        <p>Talla: {{ item.talla }}</p>
+        <span class="price-text">${{ item.precio }}</span>
+      </ion-label>
+      <ion-button slot="end" fill="clear" color="medium" (click)="eliminarItem(i)">
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-footer *ngIf="cartService.cartItems.length > 0" class="ion-no-border checkout-footer">
+  
+  <p class="payment-title">Método de pago</p>
+  
+  <div class="payment-grid">
+    <div (click)="seleccionarMetodo('tarjeta')" 
+         [style.border]="metodoSeleccionado === 'tarjeta' ? '2px solid #000' : '2px solid #f4f4f4'"
+         class="payment-option">
+      <ion-icon name="card-outline"></ion-icon>
+      <p>Tarjeta</p>
+      <ion-icon *ngIf="metodoSeleccionado === 'tarjeta'" name="checkmark-circle" class="check-icon"></ion-icon>
+    </div>
+
+    <div (click)="seleccionarMetodo('paypal')" 
+         [style.border]="metodoSeleccionado === 'paypal' ? '2px solid #000' : '2px solid #f4f4f4'"
+         class="payment-option">
+      <ion-icon name="logo-paypal"></ion-icon>
+      <p>PayPal</p>
+      <ion-icon *ngIf="metodoSeleccionado === 'paypal'" name="checkmark-circle" class="check-icon"></ion-icon>
+    </div>
+  </div>
+
+  <div *ngIf="metodoSeleccionado === 'tarjeta'" style="margin-bottom: 20px;">
+    <ion-item lines="none" style="--background: #030303; --border-radius: 12px; margin-bottom: 10px;">
+      <ion-input placeholder="Número de tarjeta" type="tel" maxlength="16"></ion-input>
+      <img slot="end" src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" width="30" style="opacity: 0.7;">
+    </ion-item>
+    <div style="display: flex; gap: 10px;">
+      <ion-item lines="none" style="--background: #020202; --border-radius: 12px; flex: 1;">
+        <ion-input placeholder="MM/AA" maxlength="5"></ion-input>
+      </ion-item>
+      <ion-item lines="none" style="--background: #080808; --border-radius: 12px; flex: 1;">
+        <ion-input placeholder="CVV" type="password" maxlength="3"></ion-input>
+      </ion-item>
+    </div>
+  </div>
+
+  <div class="total-row">
+    <span>Total</span>
+    <strong>${{ totalCarrito }}</strong>
+  </div>
+  
+  <ion-button expand="block" class="pay-btn" (click)="realizarPago()">
+    {{ metodoSeleccionado === 'paypal' ? 'PAGAR CON PAYPAL' : 'PAGAR AHORA' }}
+  </ion-button>
+</ion-footer>

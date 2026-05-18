@@ -1,0 +1,31 @@
+.tab-selected {
+  color: #171412;
+}
+
+ion-tab-bar {
+  --background: rgba(255, 255, 255, 0.96);
+  border-top: 1px solid #eee6dc;
+  height: 70px;
+}
+
+ion-tab-button {
+  --color: #8f857b;
+  --color-selected: #171412;
+  font-weight: 800;
+  position: relative;
+}
+
+ion-badge {
+  position: absolute;
+  top: 7px;
+  right: calc(50% - 20px);
+  min-width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: #b45f3b;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 900;
+}
