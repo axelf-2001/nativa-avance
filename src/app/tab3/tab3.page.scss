@@ -73,8 +73,9 @@
   ion-item {
     --background: #f8f4ee;
     --border-radius: 14px;
+    --color: #000;
     margin: 8px;
-    color: #171412;
+    color: #000;
   }
 
   ion-icon {
@@ -161,7 +162,8 @@
   ion-item {
     --background: #f8f4ee;
     --border-radius: 14px;
-    color: #171412;
+    --color: #000;
+    color: #000;
   }
 }
 
@@ -200,6 +202,220 @@
   color: #8b8177;
   letter-spacing: 1px;
   text-transform: uppercase;
+}
+
+.compact-title {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.admin-panel {
+  margin: 18px 0 22px;
+  padding: 16px;
+  border-radius: 22px;
+  background: #171412;
+  color: #fff;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+
+  span {
+    display: block;
+    color: #cdbfae;
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  h3 {
+    margin: 4px 0 0;
+    font-size: 1.25rem;
+    font-weight: 950;
+  }
+
+  ion-icon {
+    font-size: 1.5rem;
+    color: #d9d0c7;
+  }
+}
+
+.admin-block {
+  margin-top: 16px;
+  padding: 14px;
+  border-radius: 18px;
+  background: #fff;
+  color: #000;
+}
+
+.admin-block ion-input,
+.admin-block ion-textarea,
+.auth-card ion-input,
+.edit-panel ion-input {
+  --color: #000;
+  --placeholder-color: #333;
+  color: #000;
+}
+
+.admin-block .compact-title {
+  color: #000;
+}
+
+.admin-user,
+.admin-product {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-top: 1px solid #f0e8df;
+
+  &:first-of-type {
+    border-top: 0;
+  }
+
+  span {
+    color: #000;
+    font-size: 0.73rem;
+  }
+}
+
+.admin-user {
+  ion-avatar {
+    width: 44px;
+    height: 44px;
+    background: #f2ece3;
+  }
+
+  ion-input {
+    --padding-start: 0;
+    --color: #000;
+    min-height: 48px;
+  }
+}
+
+.admin-actions {
+  display: flex;
+  gap: 2px;
+}
+
+.product-form {
+  display: grid;
+  gap: 8px;
+
+  ion-item {
+    --background: #f8f4ee;
+    --border-radius: 14px;
+    --color: #000;
+  }
+}
+
+.product-image-upload {
+  display: grid;
+  grid-template-columns: 78px 1fr;
+  gap: 12px;
+  align-items: center;
+  padding: 10px;
+  border-radius: 16px;
+  background: #f8f4ee;
+  color: #000;
+
+  img {
+    width: 78px;
+    height: 104px;
+    border-radius: 12px;
+    object-fit: cover;
+    object-position: center top;
+    background: #fff;
+    border: 1px solid #efe6dc;
+  }
+
+  strong,
+  span {
+    display: block;
+    color: #000;
+  }
+
+  strong {
+    font-size: 0.9rem;
+    font-weight: 950;
+  }
+
+  ion-button {
+    --border-radius: 12px;
+    margin: 8px 0 0;
+    font-weight: 900;
+    text-transform: none;
+  }
+
+  .upload-image-btn {
+    --background: #171412;
+    --background-hover: #171412;
+    --color: #fff;
+    --border-color: #171412;
+    min-height: 38px;
+  }
+}
+
+.image-adjuster {
+  padding: 12px;
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid #e8ded3;
+  color: #000;
+
+  div {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: center;
+  }
+
+  strong,
+  span {
+    color: #000;
+    font-size: 0.82rem;
+    font-weight: 900;
+  }
+
+  ion-range {
+    --bar-background: #ded5cb;
+    --bar-background-active: #171412;
+    --knob-background: #171412;
+    --pin-background: #171412;
+    --pin-color: #fff;
+    padding: 0;
+  }
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.admin-product {
+  img {
+    width: 48px;
+    height: 60px;
+    border-radius: 10px;
+    object-fit: cover;
+    object-position: center top;
+    background: #f3f1ec;
+  }
+
+  strong {
+    display: block;
+    color: #000;
+    font-size: 0.86rem;
+    line-height: 1.2;
+  }
 }
 
 .notification-scroll {

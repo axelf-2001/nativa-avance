@@ -2,8 +2,9 @@
   <ion-toolbar color="white" class="main-toolbar">
     <ion-title>NATIVA</ion-title>
     <ion-buttons slot="end">
-      <ion-button class="icon-button">
+      <ion-button class="icon-button notification-button" (click)="abrirNotificaciones()">
         <ion-icon slot="icon-only" name="notifications-outline"></ion-icon>
+        <ion-badge *ngIf="totalAvisosInicio > 0">{{ totalAvisosInicio }}</ion-badge>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -92,7 +93,7 @@
     </div>
   </ion-grid>
 
-  <ion-modal [isOpen]="mostrarDetalle" (didDismiss)="cerrarDetalle()" [initialBreakpoint]="0.85" [breakpoints]="[0, 0.85, 1]">
+  <ion-modal id="product-detail-modal" class="product-detail-modal" [isOpen]="mostrarDetalle" (didDismiss)="mostrarDetalle = false">
     <ng-template>
       <ion-content class="ion-padding" *ngIf="productoSeleccionado">
         <div class="modal-header">
@@ -129,6 +130,51 @@
             <ion-icon name="bag-add-outline" slot="start"></ion-icon>
             Añadir a la bolsa
           </ion-button>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal id="notifications-modal" class="notifications-modal" [isOpen]="mostrarNotificaciones" (didDismiss)="mostrarNotificaciones = false">
+    <ng-template>
+      <ion-content class="ion-padding notifications-content">
+        <div class="notifications-header">
+          <div>
+            <span>Centro de avisos</span>
+            <h2>Notificaciones</h2>
+          </div>
+          <ion-button fill="clear" (click)="cerrarNotificaciones()">
+            <ion-icon name="close-outline" slot="icon-only"></ion-icon>
+          </ion-button>
+        </div>
+
+        <section *ngIf="cartService.cartItems.length > 0" class="notice-section">
+          <h3>En tu bolsa</h3>
+          <article *ngFor="let item of cartService.cartItems" class="notice-item">
+            <img [src]="item.imagen" [alt]="item.nombre" (error)="usarImagenFallback($event)" />
+            <div>
+              <strong>{{ item.nombre }}</strong>
+              <p>Talla {{ item.talla }} · ${{ item.precio }}</p>
+              <button type="button" class="ready-link" (click)="irABolsa()">Listo para comprar</button>
+            </div>
+          </article>
+        </section>
+
+        <section *ngIf="notificaciones.length > 0" class="notice-section">
+          <h3>Compras y avisos</h3>
+          <article *ngFor="let n of notificaciones" class="notice-item text-notice">
+            <div>
+              <strong>{{ n.title }}</strong>
+              <p>{{ n.msg }}</p>
+              <span>{{ n.fecha }}</span>
+            </div>
+          </article>
+        </section>
+
+        <div *ngIf="cartService.cartItems.length === 0 && notificaciones.length === 0" class="empty-notifications">
+          <ion-icon name="notifications-outline"></ion-icon>
+          <h3>Sin notificaciones</h3>
+          <p>Cuando agregues productos a la bolsa o completes compras, aparecerán aquí.</p>
         </div>
       </ion-content>
     </ng-template>

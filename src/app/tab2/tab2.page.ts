@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicModule, AlertController, LoadingController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { CartService } from '../services/cart.service';
 import { addIcons } from 'ionicons';
 import { trashOutline, bagHandleOutline, cardOutline, logoPaypal, checkmarkCircle } from 'ionicons/icons';
@@ -10,7 +11,7 @@ import { trashOutline, bagHandleOutline, cardOutline, logoPaypal, checkmarkCircl
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule]
+  imports: [IonicModule, CommonModule, RouterLink]
 })
 export class Tab2Page {
   // Controla qué opción está resaltada

@@ -9,7 +9,7 @@
     <ion-icon name="bag-handle-outline"></ion-icon>
     <h2>Tu bolsa está vacía</h2>
     <p>Explora la colección y guarda aquí tus favoritos para comprar más rápido.</p>
-    <ion-button color="dark" routerLink="/tabs/tab1">Ir a la tienda</ion-button>
+    <ion-button color="dark" [routerLink]="['/tabs/tab1']" routerDirection="root">Ir a la tienda</ion-button>
   </div>
 
   <ion-list *ngIf="cartService.cartItems.length > 0" lines="none" class="cart-list" style="background: transparent;">

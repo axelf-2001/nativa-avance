@@ -83,6 +83,107 @@
       </div>
     </div>
 
+    <section *ngIf="esAdmin" class="admin-panel">
+      <div class="admin-header">
+        <div>
+          <span>Panel administrador</span>
+          <h3>Usuarios y productos</h3>
+        </div>
+        <ion-icon name="settings-outline"></ion-icon>
+      </div>
+
+      <div class="admin-block">
+        <div class="section-title compact-title">Perfiles registrados</div>
+        <div class="admin-user" *ngFor="let usuario of usuariosRegistrados">
+          <ion-avatar>
+            <img [src]="usuario.avatar || 'assets/profile-placeholder.svg'" [alt]="usuario.nombre" />
+          </ion-avatar>
+          <div>
+            <ion-input label="Nombre" labelPlacement="stacked" [(ngModel)]="usuario.nombre"></ion-input>
+            <span>{{ usuario.email }} · {{ usuario.role || 'cliente' }}</span>
+          </div>
+          <div class="admin-actions">
+            <ion-button fill="clear" (click)="guardarUsuarioAdmin(usuario)">
+              <ion-icon name="save-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+            <ion-button fill="clear" color="danger" (click)="eliminarUsuarioAdmin(usuario)">
+              <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-block">
+        <div class="section-title compact-title">Agregar producto</div>
+        <div class="product-form">
+          <ion-item lines="none">
+            <ion-input label="Nombre" labelPlacement="stacked" [(ngModel)]="nuevoProducto.nombre"></ion-input>
+          </ion-item>
+          <div class="form-grid">
+            <ion-item lines="none">
+              <ion-input label="Categoría" labelPlacement="stacked" [(ngModel)]="nuevoProducto.categoria"></ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-input label="Precio" labelPlacement="stacked" type="number" [(ngModel)]="nuevoProducto.precio"></ion-input>
+            </ion-item>
+          </div>
+          <div class="form-grid">
+            <ion-item lines="none">
+              <ion-input label="Etiqueta" labelPlacement="stacked" [(ngModel)]="nuevoProducto.etiqueta"></ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-input label="Color" labelPlacement="stacked" [(ngModel)]="nuevoProducto.color"></ion-input>
+            </ion-item>
+          </div>
+          <div class="product-image-upload">
+            <img [src]="nuevoProducto.imagen" alt="Vista previa del producto" />
+            <div>
+              <strong>Imagen del producto</strong>
+              <ion-button class="upload-image-btn" size="small" (click)="productImageInput.click()">
+                <ion-icon name="camera-outline" slot="start"></ion-icon>
+                Subir imagen
+              </ion-button>
+              <input #productImageInput type="file" accept="image/*" hidden (change)="cambiarImagenProducto($event)" />
+            </div>
+          </div>
+          <div class="image-adjuster" *ngIf="imagenProductoOriginal">
+            <div>
+              <strong>Ajustar tamaño</strong>
+              <span>{{ escalaImagenProducto }}%</span>
+            </div>
+            <ion-range
+              min="45"
+              max="135"
+              step="5"
+              [value]="escalaImagenProducto"
+              (ionChange)="ajustarImagenProducto($event)">
+            </ion-range>
+          </div>
+          <ion-item lines="none">
+            <ion-textarea label="Descripción" labelPlacement="stacked" autoGrow="true" [(ngModel)]="nuevoProducto.descripcion"></ion-textarea>
+          </ion-item>
+          <ion-button expand="block" class="primary-action compact" (click)="agregarProductoAdmin()">
+            <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+            Agregar producto
+          </ion-button>
+        </div>
+      </div>
+
+      <div class="admin-block">
+        <div class="section-title compact-title">Productos publicados</div>
+        <div class="admin-product" *ngFor="let producto of productosAdmin">
+          <img [src]="producto.imagen" [alt]="producto.nombre" />
+          <div>
+            <strong>{{ producto.nombre }}</strong>
+            <span>{{ producto.categoria }} · ${{ producto.precio }}</span>
+          </div>
+          <ion-button fill="clear" color="danger" (click)="eliminarProductoAdmin(producto)">
+            <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+          </ion-button>
+        </div>
+      </div>
+    </section>
+
     <div class="section-title">Avisos</div>
     <div class="notification-scroll" *ngIf="notificaciones.length > 0">
       <div *ngFor="let n of notificaciones" class="notif-card">
